@@ -1,0 +1,15 @@
+.header {
+    width: 65%;
+    margin: 0 auto;
+    padding: 3px;
+}
+
+.header > h2 {
+    margin: 5px 3px 15px 3px;
+}
+
+@media (max-width: 1050px) {
+    .header {
+        width: 95%;
+    }
+}

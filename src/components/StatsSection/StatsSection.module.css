@@ -1,0 +1,11 @@
+.statsBlock {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+}
+
+@media (max-width: 1050px) {
+    .statsBlock {
+        grid-template-columns: 1fr;
+    }
+}

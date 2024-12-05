@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.peopleNow {
+    font-weight: bold;
+}
+
+.number {
+    font-style: italic;
+}
+
+.spanParent {
+    margin-right: 10px;
+}
+
+/* span {
+    font-size: 14px;
+} */
