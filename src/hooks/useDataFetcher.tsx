@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../components/Loading/Loading';
 
 interface Data {
   images: string[];
@@ -165,7 +166,7 @@ const DataFetcher: React.FC<DataFetcherProps> = ({ url, params, onDataFetched })
   }, [url, params, onDataFetched]);
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return <Loading />;
   }
 
   if (error) {
