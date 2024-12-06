@@ -30,8 +30,8 @@ const NumberStats: FC<NumberStatsProps> = ({ data }) => {
         <div className={styles.container}>
             <span className={styles.peopleNow}>Людей в помещении: <span className={styles.number}>{processedStats.fw - processedStats.bw}</span></span>
             <div>
-                <span className={styles.spanParent}>Вошло людей: <span className={styles.number}>{processedStats.fw}</span></span>
-                <span className={styles.spanParent}>Вышло людей: <span className={styles.number}>{processedStats.bw}</span></span>
+                <div className={styles.spanParent}><span >Вошло людей: <span className={styles.number}>{processedStats.fw}</span></span></div>
+                <div className={styles.spanParent}><span>Вышло людей: <span className={styles.number}>{processedStats.bw}</span></span></div>
             </div>
         </div>
     );
