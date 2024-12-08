@@ -1,27 +1,8 @@
-.body {
-    width: 65%;
-    margin: 0 auto;
-}
-
-.body > div {
-    margin-bottom: 10px;
-}
-
-.cameras {
+.main {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     align-items: start;
-}
-
-@media (max-width: 1050px) {
-    .cameras {
-        grid-template-columns: 1fr;
-    }
-
-    .body {
-        width: 95%;
-    }
 }
 
 .border {
@@ -30,12 +11,8 @@
     border-radius: 10px;
 }
 
-.leftColumn > div {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 5px;
-}
-
-.stats {
-    width: calc(100% - 10px);
+@media (max-width: 1200px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
 }

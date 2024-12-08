@@ -1,99 +1,69 @@
-import React, { FC, useState } from "react";
-import { Button } from "antd";
-import DateSelection from "../DateSelection/DateSelection";
-import PlaceSelection from "../PlaceSelection/PlaceSelection";
-import DataFetcher from "../../hooks/useDataFetcher";
+import React, { FC, useState, useEffect } from "react";
 import styles from "./AppBody.module.css";
+import AppHeader from "../AppHeader/AppHeader";
+import DataFetcher from "../../hooks/useDataFetcher";
 import TranslationDisplay from "../TranslationDisplay/TranslationDisplay";
-import StatsSection from "../StatsSection/StatsSection";
+import VisitorTrackerGraph from "../VisitorTrackerGraph/VisitorTrackerGraph";
+import TrafficGraph from "../TrafficGraph/TrafficGraph";
+import TrafficSummary from "../TrafficSummary/TrafficSummary";
 
 interface AppBodyProps {}
 
-interface DateData {
-    from: string;
-    to: string;
-}
-
-interface Data {
-    images: string[];
-    data: any;
-}
-
 const AppBody: FC<AppBodyProps> = () => {
-    const [dateData, setDateData] = useState<DateData | null>(null);
-    const [placeData, setPlaceData] = useState<string | null>(null);
-    const [data, setData] = useState<Data | null>(null);
-    const [isFetching, setIsFetching] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState<string>("");
+    const [selectedPlace, setSelectedPlace] = useState<string>("");
+    const [fetchData, setFetchData] = useState<boolean>(false);
+    const [data, setData] = useState<any>(null);
+    const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
 
-    const handleDateData = (data: DateData) => {
-        console.log("Selected date data:", data);
-        setDateData(data);
+    const handleDateChange = (dateString: string) => {
+        setSelectedDate(dateString);
     };
 
-    const handleSelectPlace = (value: string) => {
-        console.log("Selected place data:", value);
-        setPlaceData(value);
+    const handlePlaceChange = (place: string) => {
+        setSelectedPlace(place);
     };
 
-    const handleClick = () => {
-        if (!dateData || !placeData || !dateData.from || !dateData.to) {
-            setErrorMessage("Заполните поля.");
-            return;
-        }
-
-        setErrorMessage(null);
-        setIsFetching(true);
-        setData(null);
-        console.log("Fetching data with:");
-        console.log("Date:", dateData);
-        console.log("Place:", placeData);
-    };
-
-    const handleDataFetched = (fetchedData: Data) => {
+    const handleDataFetched = (fetchedData: any) => {
         setData(fetchedData);
-        setIsFetching(false);
+        console.log(fetchedData);
     };
 
-    const params = dateData && placeData
-        ? { date: { from: dateData.from, to: dateData.to }, place: placeData }
-        : undefined;
+    useEffect(() => {
+        if (selectedDate && selectedPlace) {
+            setFetchData(true);
+        }
+    }, [selectedDate, selectedPlace]);
+
+    const toggleHeaderVisibility = (isVisible: boolean) => {
+        setIsHeaderVisible(isVisible);
+    };
 
     return (
-        <div className={styles.body}>
-            <div className={styles.cameras}>
-                <div className={`${styles.leftColumn} ${styles.border}`}>
-                    <DateSelection onSendData={handleDateData} />
-                    <PlaceSelection onSelectPlace={handleSelectPlace} />
-                    <Button type="primary" onClick={handleClick}>
-                        Получить данные
-                    </Button>
-                    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-                </div>
-                <div className={styles.rightColumn}>
-                    {isFetching && params && (
-                        <div className={styles.border}>
-                            <DataFetcher
-                                url="https://api.example.com/data"
-                                params={params}
-                                onDataFetched={handleDataFetched}
-                            />
+        <div>
+            {isHeaderVisible && <AppHeader onDateChange={handleDateChange} onPlaceChange={handlePlaceChange} />}
+            <div>
+                {fetchData && (
+                    <DataFetcher
+                        params={{ date: selectedDate, place: selectedPlace }}
+                        onDataFetched={handleDataFetched}
+                    />
+                )}
+                {data && (
+                    <div className={styles.main}>
+                        <div className={`${styles.rightColumn} ${styles.border}`}>
+                            <TrafficSummary megacount={data.megacount} />
+                            <VisitorTrackerGraph cafeteria_count={data.cafeteria_count} />
+                            <TrafficGraph detailed_megacount={data.detailed_megacount} />
                         </div>
-                    )}
-                    {!isFetching && data && data.images && (
-                        <div className={`${styles.border} ${styles.dataContainer}`}>
-                            {data.images.map((url, index) => (
-                                <TranslationDisplay key={index} url={url} />
+                        <div className={styles.leftColumn}>
+                            {data.images.map((image: string, index: number) => (
+                                <TranslationDisplay key={index} url={image} toggleHeaderVisibility={toggleHeaderVisibility} />
                             ))}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
-            {!isFetching && data && data.data && (
-                <div className={`${styles.border} ${styles.stats}`}>
-                    <StatsSection data={data.data} />
-                </div>
-            )}
         </div>
     );
 };

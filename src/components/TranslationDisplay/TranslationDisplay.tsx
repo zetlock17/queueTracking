@@ -3,13 +3,21 @@ import styles from "./TranslationDisplay.module.css";
 
 interface TranslationProps {
   url: string;
+  toggleHeaderVisibility: (isVisible: boolean) => void;
 }
 
-const TranslationDisplay: FC<TranslationProps> = ({ url }) => {
+const TranslationDisplay: FC<TranslationProps> = ({ url, toggleHeaderVisibility }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+    toggleHeaderVisibility(false);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    toggleHeaderVisibility(true);
+  };
 
   return (
     <>
