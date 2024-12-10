@@ -1,7 +1,8 @@
 .container {
   width: 100%;
-  min-height: 200px;
+  height: auto;
 }
+
 
 .container canvas {
   width: 100% !important;

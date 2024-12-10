@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import styles from './VisitorTrackerGraph.module.css';
+import { max } from 'date-fns';
 
 // Register necessary components for Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin);
@@ -55,6 +56,9 @@ const CafeteriaChart: React.FC<CafeteriaChartProps> = ({ cafeteria_count }) => {
         text: 'График количества посетителей',
       },
       zoom: {
+        limits: {
+          y: { min: 0, max: 80}
+        },
         pan: {
           enabled: true,
           mode: 'xy' as const,
@@ -81,13 +85,19 @@ const CafeteriaChart: React.FC<CafeteriaChartProps> = ({ cafeteria_count }) => {
           display: true,
         },
         beginAtZero: true,
+        min: 0,
+        ticks: {
+          beginAtZero: true,
+          autoSkip: true,
+          maxTicksLimit: 10,
+        },
       },
     },
   };
 
   return (
     <div className={styles.container}>
-      <Line data={chartData} options={chartOptions} />
+      <Line data={chartData} options={chartOptions} height={270} />
     </div>
   );
 };

@@ -65,7 +65,7 @@ const TrafficGraph: React.FC<TrafficGraphProps> = ({ detailed_megacount }) => {
 
   return (
     <div className={styles.container}>
-      <Bar data={chartData} options={chartOptions} />
+      <Bar data={chartData} options={chartOptions} height={250}/>
     </div>
   );
 };
