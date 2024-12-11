@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.form} onKeyPress={handleKeyPress}>
-      <h2>Авторизация</h2>
+      <h2 className={styles.h2}>Авторизация</h2>
       {error && <p className={styles.error}>{error}</p>}
       <input
         type="text"
