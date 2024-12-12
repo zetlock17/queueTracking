@@ -4,7 +4,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { format } from 'date-fns';
 import styles from './TrafficGraph.module.css';
 
-// Register necessary components for Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface TrafficGraphProps {
@@ -17,29 +16,26 @@ interface TrafficGraphProps {
 const TrafficGraph: React.FC<TrafficGraphProps> = ({ detailed_megacount }) => {
   const { entrance, exit } = detailed_megacount;
 
-  // Extract labels and data
   const labels = Object.keys(entrance).map(date => format(new Date(date), 'HH:mm'));
   const entranceData = Object.values(entrance);
   const exitData = Object.values(exit);
 
-  // Chart data configuration
   const chartData = {
-    labels, // Time on X-axis
+    labels,
     datasets: [
       {
         label: 'Вход',
-        data: entranceData, // Entrance count on Y-axis
+        data: entranceData,
         backgroundColor: 'rgba(79,172,254,1)',
       },
       {
         label: 'Выход',
-        data: exitData, // Exit count on Y-axis
+        data: exitData,
         backgroundColor: 'rgba(0,242,254,1)',
       },
     ],
   };
 
-  // Chart options configuration
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -65,7 +61,7 @@ const TrafficGraph: React.FC<TrafficGraphProps> = ({ detailed_megacount }) => {
 
   return (
     <div className={styles.container}>
-      <Bar data={chartData} options={chartOptions} height={250}/>
+      <Bar data={chartData} options={chartOptions} height={260}/>
     </div>
   );
 };

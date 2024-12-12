@@ -1,11 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
-import styles from "./AppBody.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import DataFetcher from "../../hooks/useDataFetcher";
-import TranslationDisplay from "../TranslationDisplay/TranslationDisplay";
-import VisitorTrackerGraph from "../VisitorTrackerGraph/VisitorTrackerGraph";
-import TrafficGraph from "../TrafficGraph/TrafficGraph";
-import TrafficSummary from "../TrafficSummary/TrafficSummary";
+import CamerasPage from "../CamerasPage/CamerasPage";
+import GraphPage from "../GraphPage/GraphPage";
+import styles from "./AppBody.module.css";
 
 interface AppBodyProps {}
 
@@ -15,6 +13,7 @@ const AppBody: FC<AppBodyProps> = () => {
     const [fetchData, setFetchData] = useState<boolean>(false);
     const [data, setData] = useState<any>(null);
     const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
+    const [isCamerasPage, setIsCamerasPage] = useState<boolean>(false);
 
     const handleDateChange = (dateString: string) => {
         setSelectedDate(dateString);
@@ -39,9 +38,13 @@ const AppBody: FC<AppBodyProps> = () => {
         setIsHeaderVisible(isVisible);
     };
 
+    const togglePage = () => {
+        setIsCamerasPage(!isCamerasPage);
+    };
+
     return (
         <div>
-            {isHeaderVisible && <AppHeader onDateChange={handleDateChange} onPlaceChange={handlePlaceChange} />}
+            {isHeaderVisible && <AppHeader onDateChange={handleDateChange} onPlaceChange={handlePlaceChange} megacount={data ? data.megacount : null} isCamerasPage={isCamerasPage} togglePage={togglePage} />}
             <div>
                 {fetchData && (
                     <DataFetcher
@@ -50,17 +53,12 @@ const AppBody: FC<AppBodyProps> = () => {
                     />
                 )}
                 {data && (
-                    <div className={styles.main}>
-                        <div className={`${styles.rightColumn} ${styles.border}`}>
-                            <TrafficSummary megacount={data.megacount} />
-                            <VisitorTrackerGraph cafeteria_count={data.cafeteria_count} />
-                            <TrafficGraph detailed_megacount={data.detailed_megacount} />
-                        </div>
-                        <div className={styles.leftColumn}>
-                            {data.images.map((image: string, index: number) => (
-                                <TranslationDisplay key={index} url={image} toggleHeaderVisibility={toggleHeaderVisibility} />
-                            ))}
-                        </div>
+                    <div className={styles.border}>
+                        {isCamerasPage ? (
+                            <CamerasPage images={data.images} toggleHeaderVisibility={toggleHeaderVisibility} />
+                        ) : (
+                            <GraphPage data={data} />
+                        )}
                     </div>
                 )}
             </div>

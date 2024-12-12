@@ -1,18 +1,5 @@
-.main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    align-items: start;
-}
-
 .border {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
-}
-
-@media (max-width: 1200px) {
-    .main {
-        grid-template-columns: 1fr;
-    }
 }

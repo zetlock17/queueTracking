@@ -1,0 +1,22 @@
+.camerasWrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.camerasWrapper > *:nth-child(odd):last-child {
+    grid-column: span 2;
+    justify-self: center;
+    width: calc(50% - 8px);
+}
+
+@media (max-width: 768px) {
+    .camerasWrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .camerasWrapper > *:nth-child(odd):last-child {
+        grid-column: span 1;
+        width: 100%;
+    }
+}

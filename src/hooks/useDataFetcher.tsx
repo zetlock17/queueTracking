@@ -25,7 +25,7 @@ interface Data {
 }
 
 let testData: Data = {
-  images: ["../../accets/imgTest1.jpg", "../../accets/imgTest2.jpg"],
+  images: ["../../accets/imgTest1.jpg", "../../accets/imgTest2.jpg", "../../accets/imgTest2.jpg"],
   megacount: {
     id: 1864309213873045504,
     date: "2024-12-05",

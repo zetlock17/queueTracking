@@ -3,9 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import styles from './VisitorTrackerGraph.module.css';
-import { max } from 'date-fns';
 
-// Register necessary components for Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin);
 
 type DataPoint = {
@@ -18,36 +16,32 @@ interface CafeteriaChartProps {
 }
 
 const CafeteriaChart: React.FC<CafeteriaChartProps> = ({ cafeteria_count }) => {
-  // Sort data by time
   const sortedData = [...cafeteria_count].sort((a, b) => {
     const timeA = new Date(a.capture_time).getTime();
     const timeB = new Date(b.capture_time).getTime();
     return timeA - timeB;
   });
 
-  // Transform sorted data for the chart
   const labels = sortedData.map(item => {
     const date = new Date(item.capture_time);
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
   });
   const data = sortedData.map(item => item.count);
 
-  // Chart data configuration
   const chartData = {
-    labels, // Time on X-axis
+    labels,
     datasets: [
       {
         label: 'Количество посетителей',
-        data, // Visitor count on Y-axis
+        data,
         borderColor: 'rgba(79,172,254,1)',
         backgroundColor: 'rgba(79,172,254,0.2)',
         fill: true,
-        tension: 0.4, // Slight curve in the line
+        tension: 0.4,
       },
     ],
   };
 
-  // Chart options configuration
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -97,7 +91,7 @@ const CafeteriaChart: React.FC<CafeteriaChartProps> = ({ cafeteria_count }) => {
 
   return (
     <div className={styles.container}>
-      <Line data={chartData} options={chartOptions} height={270} />
+      <Line data={chartData} options={chartOptions} height={260} />
     </div>
   );
 };

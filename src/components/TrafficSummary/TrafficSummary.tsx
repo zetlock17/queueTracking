@@ -7,10 +7,14 @@ interface TrafficSummaryProps {
         date: string;
         entrance: number;
         exit: number;
-    }
+    } | null;
 }
- 
-const TrafficSummary: FC<TrafficSummaryProps> = ({megacount}) => {
+
+const TrafficSummary: FC<TrafficSummaryProps> = ({ megacount }) => {
+    if (!megacount) {
+        return <div className={styles.container}></div>;
+    }
+
     return (
         <div className={styles.container}>
             <span><b>Сейчас людей: {megacount.entrance - megacount.exit}</b></span>
@@ -19,5 +23,5 @@ const TrafficSummary: FC<TrafficSummaryProps> = ({megacount}) => {
         </div>
     );
 }
- 
+
 export default TrafficSummary;
